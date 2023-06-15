@@ -57,5 +57,9 @@ class KeyboardAgent:
 if __name__ == "__main__":
     env = EnvironmentInterface()
     env.connect()
+    #env.enable_video_logging()     # enable video
+    #env.enable_text_logging()      # enable log text
+    env.disable_video_logging()    # disable video
+    env.disable_text_logging()     # disable log text
     agent = KeyboardAgent(environment=env)
     agent.run(100000)
