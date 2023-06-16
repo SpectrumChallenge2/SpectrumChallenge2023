@@ -8,6 +8,8 @@ from torch import nn
 from torch.distributions.categorical import Categorical
 from pathlib import Path
 
+# 22년 자료 입니다.
+
 class Agent:
     def __init__(self, environment, discount_factor, dnn_learning_rate):
         super(Agent, self).__init__()
