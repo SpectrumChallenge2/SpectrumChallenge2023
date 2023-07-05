@@ -15,7 +15,7 @@ AUTH_TOKEN_DIR = expanduser("~/.evalai/")
 AUTH_TOKEN_PATH = os.path.join(AUTH_TOKEN_DIR, AUTH_TOKEN_FILE_NAME)
 
 #API_HOST_URL = "https://www.spectrum-challenge.com"
-os.environ.get("EVALAI_API_URL", "https://www.spectrum-challenge.com")
+API_HOST_URL = os.environ.get("EVALAI_API_URL", "https://www.spectrum-challenge.com")
 
 EVALAI_ERROR_CODES = [400, 401, 403, 406]
 
