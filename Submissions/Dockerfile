@@ -4,6 +4,6 @@ COPY ./ /home/data
 
 WORKDIR /home/data
 
-CMD ["python", "agent.py"]
+CMD ["python", "marl.py"]
 
 
