@@ -82,15 +82,17 @@ class MultiAgent:
     def __init__(self, env):
         self._env = env
         self._run_time = 1000000
-        self._num_agents = 2
-        self._num_freq_channel = 6
+        self._num_agents = 3
+        self._num_freq_channel = 8
         self._replay_buffer = [ReplayBuffer(i+1) for i in range(self._num_agents)]
         self._agents = [Agent(self._env, i+1) for i in range(self._num_agents)]
         self._target_update_interval = 10
         self._loss1 = []
         self._loss2 = []
+        self._loss3 = []
         self._reward1 = []
         self._reward2 = []
+        self._reward3 = []
 
 
     def get_actions(self):
@@ -139,9 +141,12 @@ class MultiAgent:
         if network == 1:
             self._loss1.append(loss)
             self._reward1.append(reward)
-        else:
+        elif network == 2:
             self._loss2.append(loss)
             self._reward2.append(reward)
+        else:
+            self._loss3.append(loss)
+            self._reward3.append(reward)
 
 
     def train(self, max_episode, max_steps, seq_size, save_file_name):
@@ -154,8 +159,10 @@ class MultiAgent:
             self._env.start_simulation(time_us=self._run_time)
             self._loss1 = []
             self._loss2 = []
+            self._loss3 = []
             self._reward1 = []
             self._reward2 = []
+            self._reward3 = []
             for i in range(self._num_agents):
                 self._agents[i].set_init()
             for step in range(max_steps):
@@ -177,7 +184,8 @@ class MultiAgent:
                     self._agents[i]._qnet_target.load_state_dict(self._agents[i]._qnet.state_dict())
 
             print(f"episode:{episode}, loss1:{np.mean(self._loss1)}, reward1:{np.mean(self._reward1)}, "
-                  f"loss2:{np.mean(self._loss2)}, reward2:{np.mean(self._reward2)}")
+                  f"loss2:{np.mean(self._loss2)}, reward2:{np.mean(self._reward2)},"
+                  f"loss3:{np.mean(self._loss3)}, reward3:{np.mean(self._reward3)}")
 
 
         print("finish")
@@ -217,7 +225,7 @@ class Agent:
         self._agent_id = agent_id
         self._dnn_learning_rate = 1e-5
         self._discount_factor = 0.99
-        self._num_freq_channel = 6
+        self._num_freq_channel = 8
         self._max_num_unit_packet = 4
         self._num_freq_channel_combination = 2 ** self._num_freq_channel - 1
         self._freq_channel_combination = [np.where(np.flip(np.array(x)))[0].tolist()
